@@ -1,2 +1,3 @@
-# faustservicedocker
-Creates a docker image for FaustService
+# faustservicecloud
+
+Build a Docker image for faustservice, the remote Faust compiler
