@@ -19,6 +19,18 @@ ENV MACOSX_DEPLOYMENT_TARGET=10.11
 ENV PATH="${PATH}:/osxcross/bin:/osxcross/compiler/target/bin"
 ########################################################################
 
+########################################################################
+# Install OSX cross compilation (first part)
+########################################################################
+RUN		apt-get update
+RUN 	mkdir osxcross
+WORKDIR /osxcross
+RUN 	git clone --depth 1 https://github.com/tpoechtrager/osxcross.git compiler
+WORKDIR /osxcross/compiler
+RUN 	sh tools/get_dependencies.sh
+COPY   	faustcrossosx/MacOSX10.11.sdk.tar.xz tarballs/
+RUN 	./build.sh
+
 
 ########################################################################
 # Now we can clone and compile all the Faust related git repositories
@@ -31,7 +43,7 @@ RUN wget -q https://services.gradle.org/distributions/gradle-4.10.1-bin.zip \
     && rm gradle-4.10.1-bin.zip
 
 COPY faustservice /faustservice
-RUN  make -C faustservice
+RUN  make -C /faustservice
 
 COPY faust /faust
 RUN  make -C /faust; \
@@ -48,16 +60,8 @@ RUN echo "process=+;" > tmp.dsp; \
     rm tmp.apk
 
 ########################################################################
-# Install OSX cross compilation
+# Install OSX cross compilation (second part)
 ########################################################################
-RUN		apt-get update
-RUN 	mkdir osxcross
-WORKDIR /osxcross
-RUN 	git clone --depth 1 https://github.com/tpoechtrager/osxcross.git compiler
-WORKDIR /osxcross/compiler
-RUN 	sh tools/get_dependencies.sh
-COPY   	faustcrossosx/MacOSX10.11.sdk.tar.xz tarballs/
-RUN 	./build.sh
 
 RUN echo "CHANGE THIS NUMBER TO FORCE CROSS OSX REGENERATION : 003"
 WORKDIR /osxcross
@@ -89,8 +93,8 @@ CMD ./faustweb --port 80 --sessions-dir /tmp/sessions --recover-cmd /faustservic
 ########################################################################
 # For local tests:
 #-----------------
-# docker run -it -v /var/run/docker.sock:/var/run/docker.sock -v /tmp/sessions:/tmp/sessions -p 80:80 grame/faustservicecloud:latest
+# docker run -it -v /var/run/docker.sock:/var/run/docker.sock -v /tmp/sessions:/tmp/sessions -p 80:80 eu.gcr.io/faust-cloud-208407/faustservicecloud:latest
 #
 # For production:
 #-----------------
-# docker run -d --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v /tmp/sessions:/tmp/sessions -p 80:80 grame/faustservicecloud:latest
+# docker run -d --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v /tmp/sessions:/tmp/sessions -p 80:80 eu.gcr.io/faust-cloud-208407/faustservicecloud:latest

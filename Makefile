@@ -1,11 +1,13 @@
+FAUSTSERVICEDOCKER="eu.gcr.io/faust-cloud-208407/faustservicecloud"
+
 build: 
-	docker build -t grame/faustservicecloud:latest .
+	docker build -t $(FAUSTSERVICEDOCKER):latest .
 
 test:
-	docker run -it -v /var/run/docker.sock:/var/run/docker.sock -v /tmp/sessions:/tmp/sessions -p 80:80 grame/faustservicecloud:latest
+	docker run -it -v /var/run/docker.sock:/var/run/docker.sock -v /tmp/sessions:/tmp/sessions -p 80:80 $(FAUSTSERVICEDOCKER):latest
 
 debug:
-	docker run -it -v /var/run/docker.sock:/var/run/docker.sock -v /tmp/sessions:/tmp/sessions -p 80:80 grame/faustservicecloud:latest /bin/bash
+	docker run -it -v /var/run/docker.sock:/var/run/docker.sock -v /tmp/sessions:/tmp/sessions -p 80:80 $(FAUSTSERVICEDOCKER):latest /bin/bash
 
 update: initsubmodules updatefaust updatefaustservice updatecrossosx
 
@@ -34,7 +36,7 @@ help:
 
 SHARED   := $(shell pwd)
 osxtest:
-	docker run -t -w /osxcross/tests -v $(SHARED):/osxcross/shared grame/faustservicecloud:latest ./run.sh -dest /osxcross/shared
+	docker run -t -w /osxcross/tests -v $(SHARED):/osxcross/shared $(FAUSTSERVICEDOCKER):latest ./run.sh -dest /osxcross/shared
 	tar xzf MacOSX-Cross.tgz
 	rm MacOSX-Cross.tgz
 	@echo "Cross compiled files are available from the MacOSX-Cross folder."
