@@ -6,8 +6,11 @@ build:
 test:
 	docker run -it -v /var/run/docker.sock:/var/run/docker.sock -v /tmp/sessions:/tmp/sessions -p 80:80 $(FAUSTSERVICEDOCKER):latest
 
+push:
+	docker push $(FAUSTSERVICEDOCKER):latest
+
 debug:
-	docker run -it -v /var/run/docker.sock:/var/run/docker.sock -v /tmp/sessions:/tmp/sessions -p 80:80 $(FAUSTSERVICEDOCKER):latest /bin/bash
+	docker run -it -p 80:80 $(FAUSTSERVICEDOCKER):latest /bin/bash
 
 update: initsubmodules updatefaust updatefaustservice updatecrossosx
 
@@ -33,6 +36,7 @@ help:
 	@echo " 'test'   : run the docker image"
 	@echo " 'osxtest': run the docker image"
 	@echo " 'debug'  : run the docker image in bash mode"
+	@echo " 'push' 	 : push the docker image to docker repository"
 
 SHARED   := $(shell pwd)
 osxtest:
