@@ -81,6 +81,7 @@ EXPOSE 80
 WORKDIR /faustservice
 RUN cp ./bin/dockerOSX /usr/local/bin/; \ 
     rm -rf makefiles/osx; \
+    rm -rf makefiles/dockerosx; \
     mv makefiles/crossosx makefiles/osx; \
     rm -rf makefiles/ros makefiles/unity/Makefile.all makefiles/unity/Makefile.android makefiles/unity/Makefile.ios makefiles/unity/Makefile.osx
 
@@ -93,8 +94,8 @@ CMD ./faustweb --port 80 --sessions-dir /tmp/sessions --recover-cmd /faustservic
 ########################################################################
 # For local tests:
 #-----------------
-# docker run -it -v /var/run/docker.sock:/var/run/docker.sock -v /tmp/sessions:/tmp/sessions -p 80:80 eu.gcr.io/faust-cloud-208407/faustservicecloud:latest
+# docker run -it -p 80:80 eu.gcr.io/faust-cloud-208407/faustservicecloud:latest
 #
 # For production:
 #-----------------
-# docker run -d --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v /tmp/sessions:/tmp/sessions -p 80:80 eu.gcr.io/faust-cloud-208407/faustservicecloud:latest
+# docker run -d --restart=always -p 80:80 eu.gcr.io/faust-cloud-208407/faustservicecloud:latest
