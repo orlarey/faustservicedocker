@@ -4,7 +4,7 @@ build:
 	docker build -t $(FAUSTSERVICEDOCKER):latest .
 
 test:
-	docker run -it -v /var/run/docker.sock:/var/run/docker.sock -v /tmp/sessions:/tmp/sessions -p 80:80 $(FAUSTSERVICEDOCKER):latest
+	docker run -it -p 80:80 $(FAUSTSERVICEDOCKER):latest
 
 push:
 	docker push $(FAUSTSERVICEDOCKER):latest
