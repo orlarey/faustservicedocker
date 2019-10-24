@@ -6,9 +6,6 @@
 PLATFORM=windows32
 ARCHLIST="max puredata puredata-poly vst vsti"
 
-echo "$PLATFORM"
 for ARCH in $ARCHLIST; do
-    echo
-	echo "$PLATFORM/$ARCH"
-	./rfaust $SERVICE $PLATFORM $ARCH kisana.dsp
+	./rtest $SERVICE $PLATFORM $ARCH kisana.dsp 312000
 done

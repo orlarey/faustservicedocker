@@ -4,11 +4,15 @@
 [ ! -z "$1" ] && SERVICE="$1" || SERVICE=${CLOUDSERVICE:="https://faustservicecloud.grame.fr"}
 
 PLATFORM=web
-ARCHLIST="wap wap-poly wasmjs wasmjs-poly wasmjs-worklet webaudiowasm webaudiowasm-links webaudiowasm-poly webaudiowasm-worklet"
 
-echo "$PLATFORM"
-for ARCH in $ARCHLIST; do
-    echo
-	echo "$PLATFORM/$ARCH"
-	./rfaust $SERVICE $PLATFORM $ARCH kisana.dsp
-done
+
+
+./rtest $SERVICE $PLATFORM wap kisana.dsp 8690
+./rtest $SERVICE $PLATFORM wap-poly kisana.dsp 8700
+./rtest $SERVICE $PLATFORM wasmjs kisana.dsp 13600
+./rtest $SERVICE $PLATFORM wasmjs-poly kisana.dsp 16500
+./rtest $SERVICE $PLATFORM wasmjs-worklet kisana.dsp 26400
+./rtest $SERVICE $PLATFORM webaudiowasm kisana.dsp 97000
+./rtest $SERVICE $PLATFORM webaudiowasm-links kisana.dsp 563900
+./rtest $SERVICE $PLATFORM webaudiowasm-poly kisana.dsp 88100
+./rtest $SERVICE $PLATFORM webaudiowasm-worklet kisana.dsp 98800

@@ -6,9 +6,6 @@
 PLATFORM=sam
 ARCHLIST="sam-source sam-source-midi sam-source-poly-1 sam-source-poly-16 sam-source-poly-4 sam-source-poly-8"
 
-echo "$PLATFORM"
 for ARCH in $ARCHLIST; do
-    echo
-	echo "$PLATFORM/$ARCH"
-	./rfaust $SERVICE $PLATFORM $ARCH kisana.dsp
+	./rtest $SERVICE $PLATFORM $ARCH kisana.dsp 62000
 done
