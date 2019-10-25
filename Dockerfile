@@ -49,6 +49,9 @@ COPY faust /faust
 RUN  make -C /faust; \
     make -C /faust install
 
+# copy precompiled android libraries needed for OSC support (-osc option)
+COPY libs /usr/local/share/faust/osclib/android/libs
+
 ########################################################################
 # Tune image by forcing Gradle upgrade
 ########################################################################

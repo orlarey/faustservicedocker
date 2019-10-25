@@ -4,7 +4,7 @@
 [ ! -z "$1" ] && SERVICE="$1" || SERVICE=${CLOUDSERVICE:="https://faustservicecloud.grame.fr"}
 
 PLATFORM=android
-ARCHLIST="android smartkeyb"
+ARCHLIST="android android-osc smartkeyb"
 
 for ARCH in $ARCHLIST; do
 	./rtest $SERVICE $PLATFORM $ARCH kisana.dsp 1732000
