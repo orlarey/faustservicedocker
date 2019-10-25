@@ -4,9 +4,16 @@
 [ ! -z "$1" ] && SERVICE="$1" || SERVICE=${CLOUDSERVICE:="https://faustservicecloud.grame.fr"}
 
 PLATFORM=osx
-ARCHLIST="coreaudio-qt coreaudio-qt-midi csound jack-qt max plot puredata puredata-poly supercollider vst vsti"
 
-for ARCH in $ARCHLIST; do
-	[ -d kisana.app ] && rm -rf kisana.app
-	./rtest $SERVICE $PLATFORM $ARCH kisana.dsp 14000
-done
+
+./rtest $SERVICE $PLATFORM coreaudio-qt kisana.dsp 25790000
+./rtest $SERVICE $PLATFORM coreaudio-qt-midi kisana.dsp 25823000
+./rtest $SERVICE $PLATFORM csound kisana.dsp 11000
+./rtest $SERVICE $PLATFORM jack-qt kisana.dsp 26703000
+./rtest $SERVICE $PLATFORM max kisana.dsp 263900
+./rtest $SERVICE $PLATFORM plot kisana.dsp 19400
+./rtest $SERVICE $PLATFORM puredata kisana.dsp 37800
+./rtest $SERVICE $PLATFORM puredata-poly kisana.dsp 38000
+./rtest $SERVICE $PLATFORM supercollider kisana.dsp 13400
+./rtest $SERVICE $PLATFORM vst kisana.dsp 50400
+./rtest $SERVICE $PLATFORM vsti kisana.dsp 50400
