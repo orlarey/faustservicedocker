@@ -17,7 +17,7 @@ if [ "$#" == "1" ]; then
 elif [ "$#" == "4" ]; then
     if [ -f "$4" ]; then
         rm -rf binary.zip
-	    compilation $1 $2 $3 $4 && echo "OK" || echo "FAIL"
+	    compilation $1 $2 $3 $4
     else 
         echo "ERROR: file $4 doesn't exist"
         exit 1

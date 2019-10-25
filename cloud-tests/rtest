@@ -7,7 +7,7 @@ if [ "$#" == "5" ]; then
     rm -f binary.zip
 	./rfaust $1 $2 $3 $4 2> /dev/null
     maxsize=$5
-    filesize=$(stat -c%s "binary.zip")
+    filesize=$(stat -f%z "binary.zip")
 
     if (( filesize > maxsize )); then
         echo "rtest $1 $2 $3 $4 $filesize:  OK"
