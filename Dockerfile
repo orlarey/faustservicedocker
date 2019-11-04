@@ -76,6 +76,13 @@ RUN		ln -s Qt5.9.1 Qt && \
     sh scripts/install.sh && \
     ln -s /usr/include/boost compiler/target/SDK/MacOSX10.11.sdk/usr/include/
 
+# install RUST (temp here should be moved)
+WORKDIR /faustservice
+RUN curl https://sh.rustup.rs -sSf > rustup
+RUN chmod a+x ./rustup
+RUN ./rustup -y
+RUN cp /root/.cargo/bin/* /usr/bin/
+ENV USER=faust
 
 ########################################################################
 # And starts Faustservice
