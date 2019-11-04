@@ -13,3 +13,4 @@
 ./testosx $1
 ./testsam $1
 ./testunity $1
+./testrust $1
