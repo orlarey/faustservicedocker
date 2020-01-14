@@ -10,47 +10,6 @@
 
 FROM grame/faustready-ubuntu-1604:004
 
-########################################################################
-# the environment below is used by the osx cross compiler
-ENV UNATTENDED=1
-ENV FORCERECOMPILE=002
-ENV CLANG_VERSION=7.0.0
-ENV MACOSX_DEPLOYMENT_TARGET=10.11
-ENV PATH="${PATH}:/osxcross/bin:/osxcross/compiler/target/bin"
-########################################################################
-
-########################################################################
-# Install OSX cross compilation (first part)
-########################################################################
-RUN		apt-get update
-RUN 	mkdir osxcross
-WORKDIR /osxcross
-RUN 	git clone --depth 1 https://github.com/tpoechtrager/osxcross.git compiler
-WORKDIR /osxcross/compiler
-RUN 	sh tools/get_dependencies.sh
-COPY   	faustcrossosx/MacOSX10.11.sdk.tar.xz tarballs/
-RUN 	./build.sh
-
-
-########################################################################
-# Now we can clone and compile all the Faust related git repositories
-########################################################################
-
-RUN echo "CHANGE THIS NUMBER TO FORCE REGENERATION : 008"
-
-RUN wget -q https://services.gradle.org/distributions/gradle-4.10.1-bin.zip \
-    && unzip gradle-4.10.1-bin.zip -d /opt/gradle \
-    && rm gradle-4.10.1-bin.zip
-
-COPY faustservice /faustservice
-RUN  make -C /faustservice
-
-COPY faust /faust
-RUN  make -C /faust; \
-    make -C /faust install
-
-# copy precompiled android libraries needed for OSC support (-osc option)
-COPY libs /usr/local/share/faust/osclib/android/libs
 
 ########################################################################
 # Install the ESP32 Toolchain
@@ -112,6 +71,50 @@ RUN $IDF_PATH/install.sh && \
 
 COPY 	 esp32/faustBasic	/usr/local/share/faust/esp32/faustBasic
 
+RUN /bin/bash -c "source /opt/esp/idf/export.sh; make -C /usr/local/share/faust/esp32/faustBasic"
+
+
+########################################################################
+# the environment below is used by the osx cross compiler
+ENV UNATTENDED=1
+ENV FORCERECOMPILE=002
+ENV CLANG_VERSION=7.0.0
+ENV MACOSX_DEPLOYMENT_TARGET=10.11
+ENV PATH="${PATH}:/osxcross/bin:/osxcross/compiler/target/bin"
+########################################################################
+
+########################################################################
+# Install OSX cross compilation (first part)
+########################################################################
+RUN		apt-get update
+RUN 	mkdir osxcross
+WORKDIR /osxcross
+RUN 	git clone --depth 1 https://github.com/tpoechtrager/osxcross.git compiler
+WORKDIR /osxcross/compiler
+RUN 	sh tools/get_dependencies.sh
+COPY   	faustcrossosx/MacOSX10.11.sdk.tar.xz tarballs/
+RUN 	./build.sh
+
+
+########################################################################
+# Now we can clone and compile all the Faust related git repositories
+########################################################################
+
+RUN echo "CHANGE THIS NUMBER TO FORCE REGENERATION : 008"
+
+RUN wget -q https://services.gradle.org/distributions/gradle-4.10.1-bin.zip \
+    && unzip gradle-4.10.1-bin.zip -d /opt/gradle \
+    && rm gradle-4.10.1-bin.zip
+
+COPY faustservice /faustservice
+RUN  make -C /faustservice
+
+COPY faust /faust
+RUN  make -C /faust; \
+    make -C /faust install
+
+# copy precompiled android libraries needed for OSC support (-osc option)
+COPY libs /usr/local/share/faust/osclib/android/libs
 
 ########################################################################
 # Tune image by forcing Gradle upgrade
