@@ -110,6 +110,8 @@ RUN echo IDF_CHECKOUT_REF=$IDF_CHECKOUT_REF IDF_CLONE_BRANCH_OR_TAG=$IDF_CLONE_B
 RUN $IDF_PATH/install.sh && \
   rm -rf $IDF_TOOLS_PATH/dist
 
+COPY 	 esp32/faustBasic	/usr/local/share/faust/esp32/faustBasic
+
 
 ########################################################################
 # Tune image by forcing Gradle upgrade
