@@ -18,6 +18,7 @@ BPS = 360;	// general tempo (beat per sec)
 
 
 process = kisana;
+mydsp1 = process; // for esp32 multi
 effect = _,_;
 
 
