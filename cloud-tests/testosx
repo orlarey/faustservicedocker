@@ -6,10 +6,10 @@
 PLATFORM=osx
 
 
-./rtest $SERVICE $PLATFORM coreaudio-qt kisana.dsp 25780000
-./rtest $SERVICE $PLATFORM coreaudio-qt-midi kisana.dsp 25823000
+./rtest $SERVICE $PLATFORM coreaudio-qt kisana.dsp 25700000
+./rtest $SERVICE $PLATFORM coreaudio-qt-midi kisana.dsp 25700000
 ./rtest $SERVICE $PLATFORM csound kisana.dsp 11000
-./rtest $SERVICE $PLATFORM jack-qt kisana.dsp 26703000
+./rtest $SERVICE $PLATFORM jack-qt kisana.dsp 26700000
 ./rtest $SERVICE $PLATFORM max kisana.dsp 249000
 ./rtest $SERVICE $PLATFORM plot kisana.dsp 19400
 ./rtest $SERVICE $PLATFORM puredata kisana.dsp 36000
