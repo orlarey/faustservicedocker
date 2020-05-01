@@ -10,7 +10,7 @@ push:
 	docker push $(FAUSTSERVICEDOCKER):latest
 
 debug:
-	docker run -it -p 80:80 $(FAUSTSERVICEDOCKER):latest /bin/bash
+	docker run -it -p 80:80 -v /Users/yannorlarey/smartfaust-2020-mars-20:/smartfaust $(FAUSTSERVICEDOCKER):latest /bin/bash 
 
 update: initsubmodules updatefaust updatefaustservice updatecrossosx
 
