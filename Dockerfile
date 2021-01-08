@@ -8,7 +8,7 @@
 ########################################################################
 ########################################################################
 
-FROM grame/faustready-ubuntu-1604:004
+FROM grame/faustready-ubuntu-1804:v1
 
 
 ########################################################################
@@ -69,9 +69,12 @@ RUN echo IDF_CHECKOUT_REF=$IDF_CHECKOUT_REF IDF_CLONE_BRANCH_OR_TAG=$IDF_CLONE_B
 RUN $IDF_PATH/install.sh && \
   rm -rf $IDF_TOOLS_PATH/dist
 
-COPY 	 esp32/faustBasic	/usr/local/share/faust/esp32/faustBasic
 
-RUN /bin/bash -c "source /opt/esp/idf/export.sh; make -C /usr/local/share/faust/esp32/faustBasic"
+COPY 	 esp32/faustBasic	/usr/local/share/faust/esp32/faustBasic
+COPY 	 esp32/gramo-precomp	/usr/local/share/faust/esp32/gramo-precomp
+COPY 	 esp32/gramo-bt-precomp	/usr/local/share/faust/esp32/gramo-bt-precomp
+
+RUN /bin/bash -c "source /opt/esp/idf/export.sh; make -C /usr/local/share/faust/esp32/faustBasic; make -C /usr/local/share/faust/esp32/gramo-precomp; make -C /usr/local/share/faust/esp32/gramo-bt-precomp"
 
 
 ########################################################################

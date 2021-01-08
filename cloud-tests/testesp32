@@ -4,7 +4,7 @@
 [ ! -z "$1" ] && SERVICE="$1" || SERVICE=${CLOUDSERVICE:="https://faustservicecloud.grame.fr"}
 
 PLATFORM=esp32
-ARCHLIST="esp32 esp32Flash gramophoneFlash gramophoneMultiFlash"
+ARCHLIST="esp32 esp32Flash gramophoneBtFlash gramophoneFlash"
 
 for ARCH in $ARCHLIST; do
     ./rtest $SERVICE $PLATFORM $ARCH kisana.dsp 10000
