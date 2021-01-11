@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Enviroment variable that can be set a default faustservice url
+[ ! -z "$1" ] && SERVICE="$1" || SERVICE=${CLOUDSERVICE:="https://faustservicecloud.grame.fr"}
+
+PLATFORM=windows64
+ARCHLIST="max vst vsti"
+
+for ARCH in $ARCHLIST; do
+	./rtest $SERVICE $PLATFORM $ARCH kisana.dsp 100000
+done
