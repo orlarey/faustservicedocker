@@ -102,13 +102,13 @@ RUN cp linux/x64/libSOUL_PatchLoader.so /usr/lib/
 
 RUN echo "CHANGE THIS NUMBER TO FORCE REGENERATION : 001"
 
-
-COPY faust /faust
+WORKDIR /
+RUN git clone https://github.com/grame-cncm/faust.git
 RUN  make -C /faust; \
     make -C /faust install
 
 # copy precompiled android libraries needed for OSC support (-osc option)
-COPY libs /usr/local/share/faust/osclib/android/libs
+#COPY libs /usr/local/share/faust/osclib/android/libs
 
 ########################################################################
 # Tune image by forcing Gradle upgrade
@@ -145,8 +145,14 @@ RUN		ln -s Qt5.9.1 Qt && \
 ########################################################################
 # Reinstall and starts Faustservice
 ########################################################################
-COPY faustservice /faustservice
-RUN  make -C /faustservice
+#COPY faustservice /faustservice
+#RUN  make -C /faustservice
+
+WORKDIR /
+RUN git clone https://github.com/grame-cncm/faustservice.git
+WORKDIR /faustservice
+RUN git checkout server
+RUN  make
 
 
 EXPOSE 80
