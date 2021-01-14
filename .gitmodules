@@ -1,6 +1,3 @@
-[submodule "faustservice"]
-	path = faustservice
-	url = git@github.com:grame-cncm/faustservice.git
 [submodule "faustcrossosx"]
 	path = faustcrossosx
 	url = git@github.com:orlarey/faustcrossosx.git
