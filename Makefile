@@ -4,13 +4,13 @@ build:
 	docker build -t $(FAUSTSERVICEDOCKER):latest .
 
 test:
-	docker run -it -p 80:80 $(FAUSTSERVICEDOCKER):latest
+	docker run -it -p 8080:80 $(FAUSTSERVICEDOCKER):latest
 
 push:
 	docker push $(FAUSTSERVICEDOCKER):latest
 
 debug:
-	docker run -it -p 80:80 -v /Users/yannorlarey/smartfaust-2020-mars-20:/smartfaust $(FAUSTSERVICEDOCKER):latest /bin/bash 
+	docker run -it -p 8080:80 $(FAUSTSERVICEDOCKER):latest /bin/bash 
 
 update: initsubmodules updatefaust updatefaustservice updatecrossosx
 

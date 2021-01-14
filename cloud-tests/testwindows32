@@ -7,5 +7,5 @@ PLATFORM=windows32
 ARCHLIST="max puredata puredata-poly vst vsti"
 
 for ARCH in $ARCHLIST; do
-	./rtest $SERVICE $PLATFORM $ARCH kisana.dsp 312000
+    ./rtest $SERVICE $PLATFORM $ARCH kisana.dsp 100000
 done

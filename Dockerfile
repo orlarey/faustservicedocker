@@ -8,7 +8,7 @@
 ########################################################################
 ########################################################################
 
-FROM grame/faustready-ubuntu-1804:v3
+FROM grame/faustready-ubuntu-1804:latest
 
 
 ########################################################################
@@ -73,17 +73,35 @@ RUN 	./build.sh
 
 
 ########################################################################
+# install RUST (temp here should be moved)
+########################################################################
+
+WORKDIR /rust
+RUN curl https://sh.rustup.rs -sSf > rustup
+RUN chmod a+x ./rustup
+RUN ./rustup -y
+RUN cp /root/.cargo/bin/* /usr/bin/
+ENV USER=faust
+
+
+
+########################################################################
+# install SOUL
+########################################################################
+
+WORKDIR /soul
+RUN wget https://github.com/soul-lang/SOUL/releases/download/0.9.66/binaries-linux-combined.zip
+RUN unzip binaries-linux-combined.zip
+RUN cp linux/x64/soul /usr/local/bin/
+RUN cp linux/x64/libSOUL_PatchLoader.so /usr/lib/
+
+
+########################################################################
 # Now we can clone and compile all the Faust related git repositories
 ########################################################################
 
-RUN echo "CHANGE THIS NUMBER TO FORCE REGENERATION : 008"
+RUN echo "CHANGE THIS NUMBER TO FORCE REGENERATION : 001"
 
-RUN wget -q https://services.gradle.org/distributions/gradle-4.10.1-bin.zip \
-    && unzip gradle-4.10.1-bin.zip -d /opt/gradle \
-    && rm gradle-4.10.1-bin.zip
-
-COPY faustservice /faustservice
-RUN  make -C /faustservice
 
 COPY faust /faust
 RUN  make -C /faust; \
@@ -95,12 +113,12 @@ COPY libs /usr/local/share/faust/osclib/android/libs
 ########################################################################
 # Tune image by forcing Gradle upgrade
 ########################################################################
-ENV GRADLE_USER_HOME=/tmp/gradle
+#ENV GRADLE_USER_HOME=/tmp/gradle
 
-# RUN echo "process=+;" > tmp.dsp; \
-#     faust2android tmp.dsp; \
-#     faust2smartkeyb -android tmp.dsp; \
-#     rm tmp.apk
+RUN echo "process=+;" > tmp.dsp; \
+    faust2android tmp.dsp; \
+    faust2smartkeyb -android tmp.dsp; \
+    rm tmp.apk
 
 ########################################################################
 # Install OSX cross compilation (second part)
@@ -116,21 +134,24 @@ RUN		ln -s Qt5.9.1 Qt && \
     sh scripts/install.sh && \
     ln -s /usr/include/boost compiler/target/SDK/MacOSX10.11.sdk/usr/include/
 
-# install RUST (temp here should be moved)
-WORKDIR /faustservice
-RUN curl https://sh.rustup.rs -sSf > rustup
-RUN chmod a+x ./rustup
-RUN ./rustup -y
-RUN cp /root/.cargo/bin/* /usr/bin/
-ENV USER=faust
+# # install RUST (temp here should be moved)
+# WORKDIR /rust
+# RUN curl https://sh.rustup.rs -sSf > rustup
+# RUN chmod a+x ./rustup
+# RUN ./rustup -y
+# RUN cp /root/.cargo/bin/* /usr/bin/
+# ENV USER=faust
 
 ########################################################################
-# And starts Faustservice
+# Reinstall and starts Faustservice
 ########################################################################
+COPY faustservice /faustservice
+RUN  make -C /faustservice
+
+
 EXPOSE 80
 WORKDIR /faustservice
-RUN cp ./bin/dockerOSX /usr/local/bin/; \ 
-    rm -rf makefiles/osx; \
+RUN rm -rf makefiles/osx; \
     rm -rf makefiles/dockerosx; \
     mv makefiles/crossosx makefiles/osx; \
     rm -rf makefiles/ros makefiles/unity/Makefile.all makefiles/unity/Makefile.android makefiles/unity/Makefile.ios makefiles/unity/Makefile.osx

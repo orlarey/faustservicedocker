@@ -15,5 +15,5 @@ PLATFORM=osx
 ./rtest $SERVICE $PLATFORM puredata kisana.dsp 36000
 ./rtest $SERVICE $PLATFORM puredata-poly kisana.dsp 36000
 ./rtest $SERVICE $PLATFORM supercollider kisana.dsp 13400
-./rtest $SERVICE $PLATFORM vst kisana.dsp 50400
-./rtest $SERVICE $PLATFORM vsti kisana.dsp 50400
+./rtest $SERVICE $PLATFORM vst kisana.dsp 40400
+./rtest $SERVICE $PLATFORM vsti kisana.dsp 40400

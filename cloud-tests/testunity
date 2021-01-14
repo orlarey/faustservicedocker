@@ -8,5 +8,5 @@ PLATFORM=unity
 ARCHLIST="source linux windows32 windows64"
 
 for ARCH in $ARCHLIST; do
-	./rtest $SERVICE $PLATFORM $ARCH kisana.dsp 60000
+    ./rtest $SERVICE $PLATFORM $ARCH kisana.dsp 50000
 done
