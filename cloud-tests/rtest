@@ -2,6 +2,12 @@
 
 usage="rtest <servurl> <platform> <arch> <srcfile> <expectedsize> ==> OK/ERROR"
 
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+
+OK="${GREEN}OK${NC}"
+ERROR="${RED}ERROR${NC}"
 
 if [ "$#" == "5" ]; then
     rm -f binary.zip
@@ -11,9 +17,9 @@ if [ "$#" == "5" ]; then
     filesize=$(( 1024*filesize ))
 
     if (( filesize > maxsize )); then
-        echo "rtest $1 $2 $3 $4 $filesize:  OK"
+        echo -e "rtest $1 $2 $3 $4 $filesize:  ${OK}"
     else
-        echo "rtest $1 $2 $3 $4 $filesize:  ERROR"
+        echo -e "rtest $1 $2 $3 $4 $filesize:  ${ERROR}"
     fi
 else
     echo "usage: $usage"
