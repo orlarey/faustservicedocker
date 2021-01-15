@@ -4,26 +4,18 @@ build:
 	docker build -t $(FAUSTSERVICEDOCKER):latest .
 
 test:
-	docker run -it -p 8080:80 $(FAUSTSERVICEDOCKER):latest
+	docker run -it -p 80:80 $(FAUSTSERVICEDOCKER):latest
 
 push:
 	docker push $(FAUSTSERVICEDOCKER):latest
 
 debug:
-	docker run -it -p 8080:80 $(FAUSTSERVICEDOCKER):latest /bin/bash 
+	docker run -it -p 80:80 $(FAUSTSERVICEDOCKER):latest /bin/bash 
 
-update: initsubmodules updatefaust updatefaustservice updatecrossosx
+update: initsubmodules updatecrossosx
 
 initsubmodules:
 	git submodule update --init --recursive
-
-updatefaust:
-	git -C faust checkout master-dev
-	git -C faust pull
-	
-updatefaustservice:
-	git -C faustservice checkout server
-	git -C faustservice pull
 
 updatecrossosx:
 	git -C faustcrossosx checkout master
