@@ -100,12 +100,12 @@ RUN cp linux/x64/libSOUL_PatchLoader.so /usr/lib/
 # Now we can clone and compile all the Faust related git repositories
 ########################################################################
 
-RUN echo "CHANGE THIS NUMBER TO FORCE REGENERATION : 001"
+RUN echo "CHANGE THIS NUMBER TO FORCE REGENERATION : 002"
 
-WORKDIR /
-RUN git clone https://github.com/grame-cncm/faust.git
-RUN  make -C /faust; \
-    make -C /faust install
+RUN git clone https://github.com/grame-cncm/faust.git /faust; 
+WORKDIR /faust
+RUN git checkout 412e1dd2652987b33e6ab96723c319c6eb4e189b
+RUN make &&  make install
 
 # copy precompiled android libraries needed for OSC support (-osc option)
 #COPY libs /usr/local/share/faust/osclib/android/libs
@@ -143,16 +143,13 @@ RUN		ln -s Qt5.9.1 Qt && \
 # ENV USER=faust
 
 ########################################################################
-# Reinstall and starts Faustservice
+# Reinstall and starts Faustservice (a commit from server branch)
 ########################################################################
-#COPY faustservice /faustservice
-#RUN  make -C /faustservice
 
-WORKDIR /
-RUN git clone https://github.com/grame-cncm/faustservice.git
 WORKDIR /faustservice
-RUN git checkout server
-RUN  make
+RUN git clone https://github.com/grame-cncm/faustservice.git /faustservice; \
+    git checkout c8b3f65bb73c23f563aa2558bfa5003220700a79; \
+    make
 
 
 EXPOSE 80
