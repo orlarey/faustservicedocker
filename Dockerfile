@@ -8,7 +8,7 @@
 ########################################################################
 ########################################################################
 
-FROM grame/faustready-ubuntu-1804:latest
+FROM grame/faustready-ubuntu-1804:v4
 
 
 ########################################################################
@@ -104,7 +104,7 @@ RUN echo "CHANGE THIS NUMBER TO FORCE REGENERATION : 002"
 
 RUN git clone https://github.com/grame-cncm/faust.git /faust; 
 WORKDIR /faust
-RUN git checkout 412e1dd2652987b33e6ab96723c319c6eb4e189b
+RUN git checkout 8a58b06d63c532d7e256debc577cb663a922f56f
 RUN make &&  make install
 
 # copy precompiled android libraries needed for OSC support (-osc option)
@@ -148,7 +148,7 @@ RUN		ln -s Qt5.9.1 Qt && \
 
 WORKDIR /faustservice
 RUN git clone https://github.com/grame-cncm/faustservice.git /faustservice; \
-    git checkout c8b3f65bb73c23f563aa2558bfa5003220700a79; \
+    git checkout 1884d5d87a25667665eedb2cd76c66104695e946; \
     make
 
 
