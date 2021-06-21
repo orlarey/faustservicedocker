@@ -100,11 +100,11 @@ RUN cp linux/x64/libSOUL_PatchLoader.so /usr/lib/
 # Now we can clone and compile all the Faust related git repositories
 ########################################################################
 
-RUN echo "CHANGE THIS NUMBER TO FORCE REGENERATION : 002"
+RUN echo "CHANGE THIS NUMBER TO FORCE REGENERATION : 003"
 
 RUN git clone https://github.com/grame-cncm/faust.git /faust; 
 WORKDIR /faust
-RUN git checkout 412e1dd2652987b33e6ab96723c319c6eb4e189b
+RUN git checkout 0dc0a21b2cab4d575238d54353b37decdb4646c3
 RUN make &&  make install
 
 # copy precompiled android libraries needed for OSC support (-osc option)
@@ -158,6 +158,13 @@ RUN rm -rf makefiles/osx; \
     rm -rf makefiles/dockerosx; \
     mv makefiles/crossosx makefiles/osx; \
     rm -rf makefiles/ros makefiles/unity/Makefile.all makefiles/unity/Makefile.android makefiles/unity/Makefile.ios makefiles/unity/Makefile.osx
+
+
+# Update SuperCollider includes to latest
+RUN rm -rf /usr/include/SuperCollider/*
+COPY SuperCollider/include/ /usr/include/SuperCollider/
+RUN rm -rf /osxcross/sdks/supercollider/*
+COPY SuperCollider/include/ /osxcross/sdks/supercollider/
 
 CMD ./faustweb --port 80 --sessions-dir /tmp/sessions --recover-cmd /faustservice/faustweb
 
