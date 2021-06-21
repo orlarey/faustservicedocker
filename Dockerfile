@@ -104,7 +104,7 @@ RUN echo "CHANGE THIS NUMBER TO FORCE REGENERATION : 003"
 
 RUN git clone https://github.com/grame-cncm/faust.git /faust; 
 WORKDIR /faust
-RUN git checkout 0dc0a21b2cab4d575238d54353b37decdb4646c3
+RUN git checkout 36104ddc1ac44f6b74f482e518541103ed96d0b2
 RUN make &&  make install
 
 # copy precompiled android libraries needed for OSC support (-osc option)
@@ -148,7 +148,7 @@ RUN		ln -s Qt5.9.1 Qt && \
 
 WORKDIR /faustservice
 RUN git clone https://github.com/grame-cncm/faustservice.git /faustservice; \
-    git checkout c8b3f65bb73c23f563aa2558bfa5003220700a79; \
+    git checkout f6bcdfdab3fe5b7b5382eef0f6b8092fbaf27d0a; \
     make
 
 
