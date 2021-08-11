@@ -16,4 +16,5 @@
 ./testunity $1
 ./testrust $1
 ./testteensy $1
+./testjulia $1
 
