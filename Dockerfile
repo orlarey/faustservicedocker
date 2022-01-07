@@ -104,7 +104,7 @@ RUN echo "CHANGE THIS NUMBER TO FORCE REGENERATION : 003"
 
 RUN git clone https://github.com/grame-cncm/faust.git /faust; 
 WORKDIR /faust
-RUN git fetch && git checkout 267902514e4234ad5a2e18bc7d449f5c68979093
+RUN git fetch && git checkout a5bbff6d7ce4d7d0ae14b4a3e6342d2b046df503
 RUN make &&  make install
 
 # copy precompiled android libraries needed for OSC support (-osc option)
