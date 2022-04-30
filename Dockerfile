@@ -104,7 +104,9 @@ RUN echo "CHANGE THIS NUMBER TO FORCE REGENERATION : 003"
 
 RUN git clone https://github.com/grame-cncm/faust.git /faust; 
 WORKDIR /faust
-RUN git fetch && git checkout a5bbff6d7ce4d7d0ae14b4a3e6342d2b046df503
+RUN git fetch && git checkout 9e2d7b835be6d039df17c03c2af71be4753527cc
+RUN echo "Revert to old faus2puredata because Apple M1 target not available with our osxcross"
+RUN git checkout 1834bd41888ee518946d8e0ed661aad9ac88843d tools/faust2appls/faust2puredata 
 RUN make &&  make install
 
 # copy precompiled android libraries needed for OSC support (-osc option)
