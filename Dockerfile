@@ -150,7 +150,7 @@ RUN		ln -s Qt5.9.1 Qt && \
 
 WORKDIR /faustservice
 RUN git clone https://github.com/grame-cncm/faustservice.git /faustservice;
-RUN git fetch && git checkout f4f80817bb7435e8f95b6836fce34b5d808ce0cb; \
+RUN git fetch && git checkout 3ee15a9f3aa957550bffac010de8d51d287029af; \
     make
 
 
