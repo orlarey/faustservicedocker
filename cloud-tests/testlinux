@@ -12,4 +12,5 @@ ARCHLIST="alsa-gtk-64bits alsa-gtk-64bits-midi alsa-gtk-64bits-osc alsa-qt-64bit
 
 for ARCH in $ARCHLIST; do
 	./rtest $SERVICE $PLATFORM $ARCH kisana.dsp 10000
+	./rtest $SERVICE $PLATFORM $ARCH kisana.zip 10000
 done
