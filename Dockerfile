@@ -104,7 +104,7 @@ RUN echo "CHANGE THIS NUMBER TO FORCE REGENERATION : 003"
 
 RUN git clone https://github.com/grame-cncm/faust.git /faust; 
 WORKDIR /faust
-RUN git fetch && git checkout 9e2d7b835be6d039df17c03c2af71be4753527cc
+RUN git fetch && git checkout 442bdfc0747a45f06d75133c3262ab7751600f95
 RUN echo "Revert to old faus2puredata because Apple M1 target not available with our osxcross"
 RUN git checkout 1834bd41888ee518946d8e0ed661aad9ac88843d tools/faust2appls/faust2puredata 
 RUN make &&  make install
@@ -117,10 +117,10 @@ RUN make &&  make install
 ########################################################################
 #ENV GRADLE_USER_HOME=/tmp/gradle
 
-RUN echo "process=+;" > tmp.dsp; \
-    faust2android tmp.dsp; \
-    faust2smartkeyb -android tmp.dsp; \
-    rm tmp.apk
+RUN echo "process=+;" > tmp.dsp; 
+RUN faust2android tmp.dsp; 
+RUN faust2smartkeyb -android tmp.dsp; 
+RUN rm tmp.apk
 
 ########################################################################
 # Install OSX cross compilation (second part)
@@ -150,7 +150,7 @@ RUN		ln -s Qt5.9.1 Qt && \
 
 WORKDIR /faustservice
 RUN git clone https://github.com/grame-cncm/faustservice.git /faustservice;
-RUN git fetch && git checkout e7cea421d3b74e58ed56f65b03d74b6fe0a7510d; \
+RUN git fetch && git checkout 3ee15a9f3aa957550bffac010de8d51d287029af; \
     make
 
 
@@ -167,6 +167,15 @@ RUN rm -rf /usr/include/SuperCollider/*
 COPY SuperCollider/include/ /usr/include/SuperCollider/
 RUN rm -rf /osxcross/sdks/supercollider/*
 COPY SuperCollider/include/ /osxcross/sdks/supercollider/
+
+
+#########################################
+# We don't have codesign for OSX targets
+#########################################
+
+RUN echo '#!/bin/bash' > /usr/local/bin/codesign
+RUN echo 'echo "WARNING IGNORE:" $@' >> /usr/local/bin/codesign
+RUN chmod a+x /usr/local/bin/codesign
 
 CMD ./faustweb --port 80 --sessions-dir /tmp/sessions --recover-cmd /faustservice/faustweb
 
