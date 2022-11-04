@@ -104,7 +104,7 @@ RUN echo "CHANGE THIS NUMBER TO FORCE REGENERATION : 003"
 
 RUN git clone https://github.com/grame-cncm/faust.git /faust; 
 WORKDIR /faust
-RUN git fetch && git checkout a8dd7ac0f3d1d3fa5c41300522ac77164d5b3d19
+RUN git fetch && git checkout a8b732e3372429fac329d00e57045914c3476791
 RUN echo "Revert to old faus2puredata because Apple M1 target not available with our osxcross"
 RUN git checkout 1834bd41888ee518946d8e0ed661aad9ac88843d tools/faust2appls/faust2puredata 
 RUN make &&  make install
@@ -150,7 +150,7 @@ RUN		ln -s Qt5.9.1 Qt && \
 
 WORKDIR /faustservice
 RUN git clone https://github.com/grame-cncm/faustservice.git /faustservice;
-RUN git fetch && git checkout a8271e583f680ec5af304a83ae832c01ce6d3c3a; \
+RUN git fetch && git checkout 3f2e83d4e953d935a33facab20b60649cbdb39a0; \
     make
 
 
