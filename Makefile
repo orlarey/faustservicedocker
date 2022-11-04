@@ -1,6 +1,6 @@
 FAUSTSERVICEDOCKER="eu.gcr.io/faust-cloud-208407/faustservicecloud"
 
-build: 
+image: 
 	docker build -t $(FAUSTSERVICEDOCKER):latest .
 
 test:
@@ -24,7 +24,7 @@ updatecrossosx:
 
 help:
 	@echo " 'update' : update faust and faustservice to the latest versions"
-	@echo " 'build'  : builds the docker image"
+	@echo " 'image'  : builds the docker image"
 	@echo " 'test'   : run the docker image"
 	@echo " 'osxtest': run the docker image"
 	@echo " 'debug'  : run the docker image in bash mode"
