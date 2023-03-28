@@ -37,3 +37,6 @@ osxtest:
 	rm MacOSX-Cross.tgz
 	@echo "Cross compiled files are available from the MacOSX-Cross folder."
 
+updateimage:
+	docker commit --change='CMD ["./faustweb", "--port", "80", "--sessions-dir", "/tmp/sessions", "--recover-cmd", "/faustservice/faustweb"]' c5cfa5c4d6ff eu.gcr.io/faust-cloud-208407/faustservicecloud:version26mars2023
+
