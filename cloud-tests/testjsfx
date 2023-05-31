@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Enviroment variable that can be set a default faustservice url
+[ ! -z "$1" ] && SERVICE="$1" || SERVICE=${CLOUDSERVICE:="https://faustservicecloud.grame.fr"}
+
+./rtest $SERVICE "source" "jsfx" kisana.dsp 12000
+./rtest $SERVICE "jsfx" "jsfx" kisana.dsp 12000

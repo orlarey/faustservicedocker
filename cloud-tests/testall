@@ -17,4 +17,4 @@
 ./testrust $1
 ./testteensy $1
 ./testjulia $1
-
+./testjsfx $1
