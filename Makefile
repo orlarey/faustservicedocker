@@ -1,5 +1,5 @@
-FAUSTSERVICEDOCKER="eu.gcr.io/faust-cloud-208407/faustservicecloud"
-VERSION="version20230605"
+FAUSTSERVICEDOCKER=eu.gcr.io/faust-cloud-208407/faustservicecloud
+VERSION=version20230906
 
 image: 
 	docker build -t $(FAUSTSERVICEDOCKER):$(VERSION) .
@@ -40,4 +40,3 @@ osxtest:
 
 updateimage:
 	docker commit --change='CMD ["./faustweb", "--port", "80", "--sessions-dir", "/tmp/sessions", "--recover-cmd", "/faustservice/faustweb"]' 488dc624a2c0 eu.gcr.io/faust-cloud-208407/faustservicecloud:version20230605
-
