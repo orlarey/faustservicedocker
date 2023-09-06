@@ -1,16 +1,17 @@
 FAUSTSERVICEDOCKER="eu.gcr.io/faust-cloud-208407/faustservicecloud"
+VERSION="version20230605"
 
 image: 
-	docker build -t $(FAUSTSERVICEDOCKER):latest .
+	docker build -t $(FAUSTSERVICEDOCKER):$(VERSION) .
 
 test:
-	docker run -it -p 80:80 $(FAUSTSERVICEDOCKER):latest
+	docker run -it -p 80:80 $(FAUSTSERVICEDOCKER):$(VERSION)
 
 push:
-	docker push $(FAUSTSERVICEDOCKER):latest
+	docker push $(FAUSTSERVICEDOCKER):$(VERSION)
 
 debug:
-	docker run -it -p 80:80 $(FAUSTSERVICEDOCKER):latest /bin/bash 
+	docker run -it -p 80:80 $(FAUSTSERVICEDOCKER):$(VERSION) /bin/bash 
 
 update: initsubmodules updatecrossosx
 
@@ -32,11 +33,11 @@ help:
 
 SHARED   := $(shell pwd)
 osxtest:
-	docker run -t -w /osxcross/tests -v $(SHARED):/osxcross/shared $(FAUSTSERVICEDOCKER):latest ./run.sh -dest /osxcross/shared
+	docker run -t -w /osxcross/tests -v $(SHARED):/osxcross/shared $(FAUSTSERVICEDOCKER):$(VERSION) ./run.sh -dest /osxcross/shared
 	tar xzf MacOSX-Cross.tgz
 	rm MacOSX-Cross.tgz
 	@echo "Cross compiled files are available from the MacOSX-Cross folder."
 
 updateimage:
-	docker commit --change='CMD ["./faustweb", "--port", "80", "--sessions-dir", "/tmp/sessions", "--recover-cmd", "/faustservice/faustweb"]' a05ed494a473 eu.gcr.io/faust-cloud-208407/faustservicecloud:version28mars2023
+	docker commit --change='CMD ["./faustweb", "--port", "80", "--sessions-dir", "/tmp/sessions", "--recover-cmd", "/faustservice/faustweb"]' 488dc624a2c0 eu.gcr.io/faust-cloud-208407/faustservicecloud:version20230605
 
