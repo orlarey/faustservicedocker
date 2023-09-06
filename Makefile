@@ -4,11 +4,20 @@ VERSION=version20230906
 image: 
 	docker build -t $(FAUSTSERVICEDOCKER):$(VERSION) .
 
+image-update: 
+	docker build -f Dockerfile-update -t $(FAUSTSERVICEDOCKER):latest .
+
 test:
 	docker run -it -p 80:80 $(FAUSTSERVICEDOCKER):$(VERSION)
 
+test-update:
+	docker run -it -p 80:80 $(FAUSTSERVICEDOCKER):latest
+
 push:
 	docker push $(FAUSTSERVICEDOCKER):$(VERSION)
+
+push-update:
+	docker push $(FAUSTSERVICEDOCKER):latest
 
 debug:
 	docker run -it -p 80:80 $(FAUSTSERVICEDOCKER):$(VERSION) /bin/bash 
