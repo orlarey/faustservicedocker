@@ -1,23 +1,24 @@
+
 FAUSTSERVICEDOCKER=eu.gcr.io/faust-cloud-208407/faustservicecloud
-VERSION=version20230906
+VERSION=version20230907
 
 image: 
 	docker build -t $(FAUSTSERVICEDOCKER):$(VERSION) .
 
 image-update: 
-	docker build -f Dockerfile-update -t $(FAUSTSERVICEDOCKER):latest .
+	docker build -f Dockerfile-update -t $(FAUSTSERVICEDOCKER):$(VERSION) .
 
 test:
 	docker run -it -p 80:80 $(FAUSTSERVICEDOCKER):$(VERSION)
 
 test-update:
-	docker run -it -p 80:80 $(FAUSTSERVICEDOCKER):latest
+	docker run -it -p 80:80 $(FAUSTSERVICEDOCKER):$(VERSION)
 
 push:
 	docker push $(FAUSTSERVICEDOCKER):$(VERSION)
 
 push-update:
-	docker push $(FAUSTSERVICEDOCKER):latest
+	docker push $(FAUSTSERVICEDOCKER):$(VERSION)
 
 debug:
 	docker run -it -p 80:80 $(FAUSTSERVICEDOCKER):$(VERSION) /bin/bash 
