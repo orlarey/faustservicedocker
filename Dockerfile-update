@@ -15,7 +15,7 @@ FROM eu.gcr.io/faust-cloud-208407/faustservicecloud:version20230605
 ########################################################################
 
 WORKDIR /faust
-RUN git fetch && git checkout 10293f20ae0904257b3ce2ca31346e5f7082d9b0
+RUN git fetch && git checkout e50b60d5620bd2bc1966ef1ab3cf04ebc59bc371
 RUN echo "Revert to old faus2puredata because Apple M1 target not available with our osxcross"
 RUN git checkout 1834bd41888ee518946d8e0ed661aad9ac88843d tools/faust2appls/faust2puredata 
 RUN make &&  make install
