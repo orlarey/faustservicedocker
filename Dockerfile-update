@@ -32,7 +32,7 @@ RUN apt-get install nodejs -y
 ########################################################################
 
 WORKDIR /faust
-RUN git fetch && git checkout a47d7328073348179fe4f49954791d2b7ca68293
+RUN git fetch && git checkout 5863d4f46f29e0d01897c7a3c97b3743dbc9df10
 RUN echo "Revert to old faus2puredata because Apple M1 target not available with our osxcross"
 RUN git checkout 1834bd41888ee518946d8e0ed661aad9ac88843d tools/faust2appls/faust2puredata 
 RUN make &&  make install
