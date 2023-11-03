@@ -11,6 +11,23 @@
 FROM eu.gcr.io/faust-cloud-208407/faustservicecloud:version20230605
 
 ########################################################################
+# INSTALL NODEJS
+########################################################################
+
+RUN apt-get update; DEBIAN_FRONTEND='noninteractive' apt-get install -y --no-install-recommends \
+    build-essential
+
+RUN apt-get update; apt-get install -y ca-certificates curl gnupg
+RUN mkdir -p /etc/apt/keyrings
+RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+
+
+RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+
+RUN apt-get update
+RUN apt-get install nodejs -y
+
+########################################################################
 # Now we can clone and compile all the Faust related git repositories
 ########################################################################
 
