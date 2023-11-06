@@ -24,9 +24,6 @@ RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg -
 
 RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
 
-RUN apt-get update
-RUN apt-get install nodejs -y
-
 ########################################################################
 # Now we can clone and compile all the Faust related git repositories
 ########################################################################
@@ -55,7 +52,7 @@ RUN rm tmp.apk
 ########################################################################
 
 WORKDIR /faustservice
-RUN git fetch && git checkout e80458c295f15099c67c5098345b76fcced040ba .; \
+RUN git fetch && git checkout 759bd76617fe6a5191176662ee817688a408d695 .; \
     make
 
 EXPOSE 80
@@ -67,6 +64,14 @@ RUN rm -rf makefiles/osx; \
     rm -rf makefiles/esp32/*Flash
 
 CMD ./faustweb --port 80 --sessions-dir /tmp/sessions --recover-cmd /faustservice/faustweb
+
+
+# Install nodejs
+RUN apt-get update
+RUN apt-get install nodejs -y
+
+# Install faustwasm
+RUN npm install -g @grame/faustwasm
 
 ########################################################################
 # HowTo run this docker image
