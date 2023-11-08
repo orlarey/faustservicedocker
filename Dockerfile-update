@@ -52,7 +52,7 @@ RUN rm tmp.apk
 ########################################################################
 
 WORKDIR /faustservice
-RUN git fetch && git checkout 759bd76617fe6a5191176662ee817688a408d695 .; \
+RUN git fetch && git checkout f0601ccb27c0e2a84cddd6eeec56e82202d694c2 .; \
     make
 
 EXPOSE 80
