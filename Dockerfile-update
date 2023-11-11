@@ -29,7 +29,7 @@ RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesourc
 ########################################################################
 
 WORKDIR /faust
-RUN git fetch && git checkout de122f3948d7f88b557aeb7282425e1bf0a7bc58
+RUN git fetch && git checkout 8569bbff85e48dc2dc61c29cb8ffe15d24495ba0
 RUN echo "Revert to old faus2puredata because Apple M1 target not available with our osxcross"
 RUN git checkout 1834bd41888ee518946d8e0ed661aad9ac88843d tools/faust2appls/faust2puredata 
 RUN make &&  make install
