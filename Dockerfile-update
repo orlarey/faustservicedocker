@@ -24,7 +24,7 @@ RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesourc
 ########################################################################
 
 WORKDIR /faust
-RUN git fetch && git checkout 8569bbff85e48dc2dc61c29cb8ffe15d24495ba0
+RUN git fetch && git checkout f36f006797701d7418dc74954d173bcafe748d40
 RUN echo "Revert to old faus2puredata because Apple M1 target not available with our osxcross"
 RUN git checkout 1834bd41888ee518946d8e0ed661aad9ac88843d tools/faust2appls/faust2puredata 
 RUN make &&  make install
@@ -67,9 +67,14 @@ RUN apt-get update
 RUN apt-get install nodejs -y
 
 ########################################################################
-# Install faustwasm
+# Install faustwasm globally
 ########################################################################
 RUN npm install -g @grame/faustwasm
+
+########################################################################
+# Update faust2max6
+########################################################################
+RUN cp /usr/local/bin/faust2max6 /osxcross/bin/osx-faust2max6
 
 ########################################################################
 # HowTo run this docker image
