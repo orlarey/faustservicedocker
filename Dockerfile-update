@@ -24,7 +24,7 @@ RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesourc
 ########################################################################
 
 WORKDIR /faust
-RUN git fetch && git checkout f36f006797701d7418dc74954d173bcafe748d40
+RUN git fetch && git checkout 94c8a18e6767a2322c04d9b83193871e00e6d5aa
 RUN echo "Revert to old faus2puredata because Apple M1 target not available with our osxcross"
 RUN git checkout 1834bd41888ee518946d8e0ed661aad9ac88843d tools/faust2appls/faust2puredata 
 RUN make &&  make install
@@ -47,7 +47,7 @@ RUN rm tmp.apk
 ########################################################################
 
 WORKDIR /faustservice
-RUN git fetch && git checkout 08a68f3c2a19ddd7e8aa1fef278a05d5a05c409d .; \
+RUN git fetch && git checkout d0ac120cc2a49708d679a0b71131e5e5f0e50a14 .; \
     make
 
 EXPOSE 80
@@ -70,6 +70,11 @@ RUN apt-get install nodejs -y
 # Install faustwasm globally
 ########################################################################
 RUN npm install -g @grame/faustwasm
+
+########################################################################
+# Install faust2wam globally
+########################################################################
+RUN npm install -g @shren/faust2wam
 
 ########################################################################
 # Update faust2max6

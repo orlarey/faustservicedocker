@@ -5,8 +5,11 @@
 
 PLATFORM=web
 
-
-
+./rtest $SERVICE $PLATFORM wam2-poly-ts kisana.dsp 88100
+./rtest $SERVICE $PLATFORM wam2-ts kisana.dsp 88100
+./rtest $SERVICE $PLATFORM wasmjs-poly-ts kisana.dsp 88100
+./rtest $SERVICE $PLATFORM wasmjs-ts kisana.dsp 88100
+./rtest $SERVICE $PLATFORM webaudiowasm-ts kisana.dsp 88100
 ./rtest $SERVICE $PLATFORM wap kisana.dsp 8690
 ./rtest $SERVICE $PLATFORM wap-poly kisana.dsp 8700
 ./rtest $SERVICE $PLATFORM wasmjs kisana.dsp 13600
