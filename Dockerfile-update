@@ -13,7 +13,7 @@ FROM eu.gcr.io/faust-cloud-208407/faustservicecloud:version20230605
 RUN apt-get update; DEBIAN_FRONTEND='noninteractive' apt-get install -y --no-install-recommends \
     build-essential
 
-RUN apt-get update; apt-get install -y ca-certificates curl gnupg
+RUN apt-get update; apt-get install -y ca-certificates curl gnupg jq
 RUN mkdir -p /etc/apt/keyrings
 RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
 
@@ -24,7 +24,7 @@ RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesourc
 ########################################################################
 
 WORKDIR /faust
-RUN git fetch && git checkout 94c8a18e6767a2322c04d9b83193871e00e6d5aa
+RUN git fetch && git checkout 6cc91db8c115d269109360f15b25d38df8cfef7b
 RUN echo "Revert to old faus2puredata because Apple M1 target not available with our osxcross"
 RUN git checkout 1834bd41888ee518946d8e0ed661aad9ac88843d tools/faust2appls/faust2puredata 
 RUN make &&  make install
