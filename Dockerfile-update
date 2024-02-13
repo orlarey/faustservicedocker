@@ -47,8 +47,11 @@ RUN rm tmp.apk
 ########################################################################
 
 WORKDIR /faustservice
-RUN git fetch && git checkout 0437d473a8e44e08b400a393a8920dec19c78e2d .; \
-    make
+# Be sure to cleanup
+RUN git reset --hard HEAD
+# Then get a specific commit
+RUN git fetch && git checkout 0437d473a8e44e08b400a393a8920dec19c78e2d 
+RUN make
 
 EXPOSE 80
 WORKDIR /faustservice
