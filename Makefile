@@ -1,6 +1,6 @@
 
 FAUSTSERVICEDOCKER=eu.gcr.io/faust-cloud-208407/faustservicecloud
-VERSION=version20240628
+VERSION=version20240629
 
 image: 
 	docker build -t $(FAUSTSERVICEDOCKER):$(VERSION) .
