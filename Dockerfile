@@ -10,6 +10,8 @@
 
 FROM grame/faustready-ubuntu-1804:v4
 
+RUN apt update 
+RUN apt install -y python3.8 python3.8-venv
 
 ########################################################################
 # Install the ESP32 Toolchain
@@ -47,7 +49,7 @@ COPY 	 esp32/faustBasic	/usr/local/share/faust/esp32/faustBasic
 COPY 	 esp32/gramo-precomp	/usr/local/share/faust/esp32/gramo-precomp
 COPY 	 esp32/gramo-bt-precomp	/usr/local/share/faust/esp32/gramo-bt-precomp
 
-RUN /bin/bash -c "source /opt/esp/idf/export.sh; make -C /usr/local/share/faust/esp32/faustBasic; make -C /usr/local/share/faust/esp32/gramo-precomp; make -C /usr/local/share/faust/esp32/gramo-bt-precomp"
+#RUN /bin/bash -c "source /opt/esp/idf/export.sh; make -C /usr/local/share/faust/esp32/faustBasic; make -C /usr/local/share/faust/esp32/gramo-precomp; make -C /usr/local/share/faust/esp32/gramo-bt-precomp"
 
 
 ########################################################################
