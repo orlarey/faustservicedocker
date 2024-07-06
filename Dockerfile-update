@@ -20,6 +20,15 @@ RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg -
 RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
 
 ########################################################################
+# Makeself is a utility for building self-extracting/installing archives that
+# need no extra support on the machine on which they are run. This is very useful
+# for building installers that don't really need to be unzipped before they are
+# executed - ala the Chaos Audio Stratus pedal installer.
+########################################################################
+
+RUN apt-get update; apt-get install -y makeself
+
+########################################################################
 # Now we can clone and compile all the Faust related git repositories
 ########################################################################
 
@@ -50,7 +59,7 @@ WORKDIR /faustservice
 # Be sure to cleanup
 RUN git reset --hard HEAD
 # Then get a specific commit
-RUN git fetch && git checkout 6d77fd943c9f20eb42ea7db25fd813596ef605be 
+RUN git fetch && git checkout 2a56d883ec97ea2eb8568344ab94a3d0f5419fae 
 RUN make
 
 EXPOSE 80
