@@ -33,9 +33,9 @@ RUN apt-get update; apt-get install -y makeself
 ########################################################################
 
 WORKDIR /faust
-RUN git fetch && git checkout c4ad7d26481ee273e0cb3da3eb708300d58a0d74
+RUN git fetch && git checkout c53dae5d7bc7f6f73e11f873ce4a2c220ed769f8
 RUN echo "Revert to old faus2puredata because Apple M1 target not available with our osxcross"
-RUN git checkout 1834bd41888ee518946d8e0ed661aad9ac88843d tools/faust2appls/faust2puredata 
+RUN git checkout 1834bd41888ee518946d8e0ed661aad9ac88843d tools/faust2appls/faust2puredata
 RUN make &&  make install
 
 # copy precompiled android libraries needed for OSC support (-osc option)
@@ -46,9 +46,9 @@ RUN make &&  make install
 ########################################################################
 #ENV GRADLE_USER_HOME=/tmp/gradle
 
-RUN echo "process=+;" > tmp.dsp; 
-RUN faust2android tmp.dsp; 
-RUN faust2smartkeyb -android tmp.dsp; 
+RUN echo "process=+;" > tmp.dsp;
+RUN faust2android tmp.dsp;
+RUN faust2smartkeyb -android tmp.dsp;
 RUN rm tmp.apk
 
 ########################################################################
@@ -59,7 +59,7 @@ WORKDIR /faustservice
 # Be sure to cleanup
 RUN git reset --hard HEAD
 # Then get a specific commit
-RUN git fetch && git checkout 2a56d883ec97ea2eb8568344ab94a3d0f5419fae 
+RUN git fetch && git checkout 2a56d883ec97ea2eb8568344ab94a3d0f5419fae
 RUN make
 
 EXPOSE 80

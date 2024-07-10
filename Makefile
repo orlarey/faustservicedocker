@@ -1,11 +1,11 @@
 
 FAUSTSERVICEDOCKER=eu.gcr.io/faust-cloud-208407/faustservicecloud
-VERSION=version20240706
+VERSION=version20240710
 
-image: 
+image:
 	docker build -t $(FAUSTSERVICEDOCKER):$(VERSION) .
 
-image-update: 
+image-update:
 	docker build -f Dockerfile-update -t $(FAUSTSERVICEDOCKER):$(VERSION) .
 
 test:
@@ -21,7 +21,7 @@ push-update:
 	docker push $(FAUSTSERVICEDOCKER):$(VERSION)
 
 debug:
-	docker run -it -p 80:80 $(FAUSTSERVICEDOCKER):$(VERSION) /bin/bash 
+	docker run -it -p 80:80 $(FAUSTSERVICEDOCKER):$(VERSION) /bin/bash
 
 update: initsubmodules updatecrossosx
 
