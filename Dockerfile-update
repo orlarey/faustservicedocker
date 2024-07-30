@@ -59,7 +59,7 @@ WORKDIR /faustservice
 # Be sure to cleanup
 RUN git reset --hard HEAD
 # Then get a specific commit
-RUN git fetch && git checkout b583f815b37058a5d72dc3269cf0aa532ab4e37b
+RUN git fetch && git checkout a00b9b3887fff7375c9923549a84466b538b3654
 RUN make
 
 EXPOSE 80
