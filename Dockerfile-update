@@ -33,7 +33,7 @@ RUN apt-get update; apt-get install -y makeself
 ########################################################################
 
 WORKDIR /faust
-RUN git fetch && git checkout 28b9ed31fab3a7fb37d0fbc5a6ed40552d7513c6
+RUN git fetch && git checkout d46a01a6059928a91115996c8468bcd7e8202dce
 RUN echo "Revert to old faus2puredata because Apple M1 target not available with our osxcross"
 RUN git checkout 1834bd41888ee518946d8e0ed661aad9ac88843d tools/faust2appls/faust2puredata
 RUN make &&  make install
@@ -59,7 +59,7 @@ WORKDIR /faustservice
 # Be sure to cleanup
 RUN git reset --hard HEAD
 # Then get a specific commit
-RUN git fetch && git checkout 93812dbf159fdec9f083314dc2f9c9794da6df82
+RUN git fetch && git checkout eb48152a53c8698667d4dc6f5d801be6f9c5ff14
 RUN make
 
 EXPOSE 80
