@@ -7,10 +7,12 @@ PLATFORM=linux
 #ARCHLIST="alsa-gtk-64bits alsa-qt-64bits csound-64bits dssi-64bits jack-console-64bits jack-gtk-64bits jack-qt-64bits ladspa-64bits lv2-64bits lv2-64bits-qt4 lv2-64bits-qt5 matlabplot-64bits plot puredata-64bits puredata-poly-64bits supercollider-64bits vst-64bits vst-64bits-qt4 vst-64bits-qt5"
 #ARCHLIST="alsa-gtk-64bits alsa-qt-64bits csound-64bits dssi-64bits jack-console-64bits jack-gtk-64bits jack-qt-64bits ladspa-64bits lv2-64bits lv2-64bits-qt4 lv2-64bits-qt5 matlabplot-64bits plot puredata-64bits puredata-poly-64bits supercollider-64bits vst-64bits"
 
-ARCHLIST="alsa-gtk-64bits alsa-gtk-64bits-midi alsa-gtk-64bits-osc alsa-qt-64bits alsa-qt-64bits-midi alsa-qt-64bits-osc csound-64bits dssi-64bits jack-console-64bits jack-console-64bits-osc jack-gtk-64bits jack-gtk-64bits-midi jack-gtk-64bits-osc jack-qt-64bits jack-qt-64bits-midi jack-qt-64bits-osc ladspa-64bits lv2-64bits lv2-64bits-qt4 lv2-64bits-qt5 matlabplot-64bits plot puredata-64bits puredata-poly-64bits supercollider-64bits vst-64bits"
+#ARCHLIST="alsa-gtk-64bits alsa-gtk-64bits-midi alsa-gtk-64bits-osc alsa-qt-64bits alsa-qt-64bits-midi alsa-qt-64bits-osc csound-64bits dssi-64bits jack-console-64bits jack-console-64bits-osc jack-gtk-64bits jack-gtk-64bits-midi jack-gtk-64bits-osc jack-qt-64bits jack-qt-64bits-midi jack-qt-64bits-osc ladspa-64bits lv2-64bits lv2-64bits-qt4 lv2-64bits-qt5 matlabplot-64bits plot puredata-64bits puredata-poly-64bits supercollider-64bits vst-64bits"
+
+ARCHLIST="alsa-gtk-64bits alsa-gtk-64bits-midi alsa-gtk-64bits-osc alsa-qt-64bits alsa-qt-64bits-midi alsa-qt-64bits-osc csound-64bits dssi-64bits jack-console-64bits jack-console-64bits-osc jack-gtk-64bits jack-gtk-64bits-midi jack-gtk-64bits-osc jack-qt-64bits jack-qt-64bits-midi jack-qt-64bits-osc ladspa-64bits lv2-64bits lv2-64bits-qt4 lv2-64bits-qt5 matlabplot-64bits plot puredata-32bits puredata-64bits puredata-poly-32bits puredata-poly-64bits supercollider-64bits tidalcycles vst-64bits"
 
 
 for ARCH in $ARCHLIST; do
-	./rtest $SERVICE $PLATFORM $ARCH kisana.dsp 10000
-	./rtest $SERVICE $PLATFORM $ARCH kisana.zip 10000
+    ./rtest $SERVICE $PLATFORM $ARCH kisana.dsp 10000
+    ./rtest $SERVICE $PLATFORM $ARCH kisana.zip 10000
 done

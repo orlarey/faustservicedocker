@@ -3,9 +3,4 @@
 # Enviroment variable that can be set a default faustservice url
 [ ! -z "$1" ] && SERVICE="$1" || SERVICE=${CLOUDSERVICE:="https://faustservicecloud.grame.fr"}
 
-PLATFORM=windows64
-ARCHLIST="max max-mc puredata puredata-poly vst vsti"
-
-for ARCH in $ARCHLIST; do
-    ./rtest $SERVICE $PLATFORM $ARCH kisana.dsp 4000
-done
+./rtest $SERVICE "chaos-stratus" "effect-installer" kisana.dsp 4096

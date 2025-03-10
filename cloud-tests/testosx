@@ -11,7 +11,9 @@ PLATFORM=osx
 ./rtest $SERVICE $PLATFORM csound kisana.dsp 11000
 ./rtest $SERVICE $PLATFORM jack-qt kisana.dsp 26700000
 ./rtest $SERVICE $PLATFORM max kisana.dsp 249000
+./rtest $SERVICE $PLATFORM max-mc kisana.dsp 249000
 ./rtest $SERVICE $PLATFORM max-poly kisana.dsp 249000
+./rtest $SERVICE $PLATFORM max-poly-mc kisana.dsp 249000
 ./rtest $SERVICE $PLATFORM plot kisana.dsp 19400
 ./rtest $SERVICE $PLATFORM puredata kisana.dsp 20000
 ./rtest $SERVICE $PLATFORM puredata-poly kisana.dsp 20000

@@ -1,21 +1,28 @@
 #!/bin/bash
 
-./testesp32 $1
-./testbela $1
-./testweb $1
+
 ./testandroid $1
+./testbela $1
+./testchaosstratus $1
+./testcmajor $1
+./testcsv $1
+./testdaisy $1
+./testesp32 $1
+./testhothouse $1
+./testjsfx $1
 ./testjuce $1
-./testwindows32 $1
-./testwindows64 $1
+./testjulia $1
 ./testlinux $1
-./testowl $1
-./testsource $1
 ./testmisc $1
 ./testosx $1
-./testsam $1
-./testunity $1
-./testrust $1
-./testteensy $1
-./testjulia $1
-./testjsfx $1
+./testowl $1
 ./testrnbo $1
+./testrust $1
+./testsam $1
+./testsource $1
+./testteensy $1
+./testunity $1
+./testvcvrack $1
+./testweb $1
+./testwindows32 $1
+./testwindows64 $1

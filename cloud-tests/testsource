@@ -4,14 +4,8 @@
 [ ! -z "$1" ] && SERVICE="$1" || SERVICE=${CLOUDSERVICE:="https://faustservicecloud.grame.fr"}
 
 PLATFORM=source
-ARCHLIST="api-android api-ios api-poly-android api-poly-ios juce juce-poly"
+ARCHLIST="any api-android api-ios api-poly-android api-poly-ios c chaos-stratus cplusplus juce juce-poly julia smartkeyb-android smartkeyb-ios"
 
 for ARCH in $ARCHLIST; do
-	./rtest $SERVICE $PLATFORM $ARCH kisana.dsp 150000
+    ./rtest $SERVICE $PLATFORM $ARCH kisana.dsp 10000
 done
-
-
-
-./rtest $SERVICE $PLATFORM cplusplus kisana.dsp 9800
-./rtest $SERVICE $PLATFORM smartkeyb-android kisana.dsp 500000
-./rtest $SERVICE $PLATFORM smartkeyb-ios kisana.dsp 400000
