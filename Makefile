@@ -8,6 +8,9 @@ image:
 image-update:
 	docker build -f Dockerfile-update -t $(FAUSTSERVICEDOCKER):$(VERSION) .
 
+image-update-inria:
+	docker build -f Dockerfile-update -t $(FAUSTSERVICEDOCKER):versionINRIA .
+
 test:
 	docker run -it -p 80:80 $(FAUSTSERVICEDOCKER):$(VERSION)
 
