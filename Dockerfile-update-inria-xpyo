@@ -1,0 +1,122 @@
+
+########################################################################
+########################################################################
+#
+#       Faustservice (remote Faust compiler) in a docker
+#                 (L. Champenois & Y. Orlarey)
+#
+########################################################################
+########################################################################
+
+FROM eu.gcr.io/faust-cloud-208407/faustservicecloud:version20250212
+
+RUN apt-get update; DEBIAN_FRONTEND='noninteractive' apt-get install -y --no-install-recommends \
+    build-essential
+
+RUN apt-get update; apt-get install -y ca-certificates curl gnupg jq lsb-release gcc-8  g++-8
+RUN mkdir -p /etc/apt/keyrings
+
+# RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --batch --dearmor -o /etc/apt/keyrings/nodesource.gpg
+
+# RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
+
+# Utiliser directement le script d'installation de NodeSource
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+RUN apt-get install -y nodejs
+
+########################################################################
+# Makeself is a utility for building self-extracting/installing archives that
+# need no extra support on the machine on which they are run. This is very useful
+# for building installers that don't really need to be unzipped before they are
+# executed - ala the Chaos Audio Stratus pedal installer.
+########################################################################
+
+RUN apt-get update; apt-get install -y makeself
+
+########################################################################
+# Now we can clone and compile all the Faust related git repositories
+########################################################################
+
+WORKDIR /faust
+RUN git fetch && git checkout 0492c7359af5389d33bdeaf472f53e15e238ce7b
+RUN echo "Revert to old faus2puredata because Apple M1 target not available with our osxcross"
+RUN git checkout 1834bd41888ee518946d8e0ed661aad9ac88843d tools/faust2appls/faust2puredata
+RUN make &&  make install
+
+# copy precompiled android libraries needed for OSC support (-osc option)
+#COPY libs /usr/local/share/faust/osclib/android/libs
+
+########################################################################
+# Tune image by forcing Gradle upgrade
+########################################################################
+#ENV GRADLE_USER_HOME=/tmp/gradle
+
+RUN echo "process=+;" > tmp.dsp;
+RUN faust2android tmp.dsp;
+RUN faust2smartkeyb -android tmp.dsp;
+RUN rm tmp.apk
+
+########################################################################
+# Reinstall and starts Faustservice (a commit from server branch)
+########################################################################
+
+# Installer GCC 9 et G++ 9
+RUN add-apt-repository ppa:ubuntu-toolchain-r/test
+RUN apt-get update
+RUN apt-get install -y gcc-9 g++-9
+
+WORKDIR /faustservice
+# Be sure to cleanup
+RUN git reset --hard HEAD
+# Then get a specific commit
+RUN git reset --hard HEAD && git fetch && git checkout e4fc4d297d289ee444e34b2fcc1c08f30d6f3238
+RUN CXX=g++-9 make
+
+EXPOSE 80
+WORKDIR /faustservice
+RUN rm -rf makefiles/osx; \
+    rm -rf makefiles/dockerosx; \
+    mv makefiles/crossosx makefiles/osx; \
+    rm -rf makefiles/ros makefiles/unity/Makefile.all makefiles/unity/Makefile.android makefiles/unity/Makefile.ios makefiles/unity/Makefile.osx \
+    rm -rf makefiles/esp32/*Flash
+
+CMD ./faustweb --port 80 --sessions-dir /tmp/sessions --recover-cmd /faustservice/faustweb
+
+########################################################################
+# INSTALL NODEJS
+########################################################################
+RUN apt-get update
+RUN apt-get install nodejs -y
+
+########################################################################
+# Install faustwasm globally
+########################################################################
+RUN npm install -g @grame/faustwasm
+
+########################################################################
+# Install faust2wam globally
+########################################################################
+RUN npm install -g @shren/faust2wam
+
+########################################################################
+# Update faust2max6
+########################################################################
+RUN cp /usr/local/bin/faust2max6 /osxcross/bin/osx-faust2max6
+
+########################################################################
+# HowTo run this docker image
+########################################################################
+# For local tests:
+#-----------------
+# docker run -it -p 80:80 <image>:<tag>
+#
+# For production:
+#-----------------
+# Arret container, lancement nouvelle image
+# docker stop <containerid>
+# docker run --cpus="3.75" --restart=always -d -p 8081:80 <imageid>:<tag>
+# Test : https://faustservice-n1.inria.fr
+#
+# faustservice : 8080:80
+# faustservice-n1 : 8081:80
+# faustservice-old : 8082:80
