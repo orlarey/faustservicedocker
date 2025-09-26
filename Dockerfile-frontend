@@ -1,0 +1,37 @@
+
+########################################################################
+########################################################################
+#
+#       Faustservice (remote Faust compiler) in a docker
+#                 (L. Champenois & Y. Orlarey)
+#
+########################################################################
+########################################################################
+
+FROM grame/fs3925:latest
+
+########################################################################
+# Reinstall and starts Faustservice (a commit from server branch)
+########################################################################
+
+# Installer GCC 9 et G++ 9
+RUN add-apt-repository ppa:ubuntu-toolchain-r/test
+RUN apt-get update
+RUN apt-get install -y gcc-9 g++-9
+
+# HACK: Install the new faustservice in a separate folder in order to keep the makefiles from fs3925
+RUN git clone https://github.com/grame-cncm/faustservice.git /newfaustservice
+
+WORKDIR /newfaustservice
+RUN git fetch && git checkout 264f82a46f08eb80913e6fae0f4d72e76ed9e435
+RUN CXX=g++-9 make
+
+# Move faustweb and app.html to the right place
+RUN cp faustweb app.html /faustservice
+
+WORKDIR /faustservice
+
+CMD ./faustweb --port 80 --sessions-dir /tmp/sessions --recover-cmd /faustservice/faustweb
+
+
+# docker run --rm --name frontend -d -p 8888:80 grame/frontendimage:latest
