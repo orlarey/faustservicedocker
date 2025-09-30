@@ -23,7 +23,7 @@ RUN apt-get install -y gcc-9 g++-9
 RUN git clone https://github.com/grame-cncm/faustservice.git /newfaustservice
 
 WORKDIR /newfaustservice
-RUN git fetch && git checkout c5782cb1e359a52f4438cea5584339c0a3d15452
+RUN git fetch && git checkout 26f50c590a1da1e6be4ac879c79c48fa9aea5ff2
 RUN CXX=g++-9 make
 
 # Move faustweb and app.html to the right place
