@@ -6,6 +6,7 @@
 
 declare name  	"kisana";
 declare author  "Yann Orlarey";
+declare version "1.0";
 
 import("music.lib");
 
