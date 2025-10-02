@@ -8,4 +8,6 @@ ARCHLIST="android android-osc smartkeyb"
 
 for ARCH in $ARCHLIST; do
 	./rtest $SERVICE $PLATFORM $ARCH kisana.dsp 1732000
+	./rtest $SERVICE $PLATFORM $ARCH pulse_nodep.zip 1732000
+	./rtest $SERVICE $PLATFORM $ARCH pulse_withdep.zip 1732000
 done

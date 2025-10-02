@@ -14,3 +14,25 @@ PLATFORM=web
 ./rtest $SERVICE $PLATFORM wasmjs-poly kisana.dsp 130000
 ./rtest $SERVICE $PLATFORM webaudiowasm kisana.dsp 180000
 ./rtest $SERVICE $PLATFORM webaudiowasm-poly kisana.dsp 180000
+
+# test with a zip file but without real dependencies between the .dsp file and the .lib file
+./rtest $SERVICE $PLATFORM pwa pulse_nodep.zip 4000
+./rtest $SERVICE $PLATFORM pwa-poly pulse_nodep.zip 4000
+./rtest $SERVICE $PLATFORM wam2-fft-ts pulse_nodep.zip 600000
+./rtest $SERVICE $PLATFORM wam2-poly-ts pulse_nodep.zip 600000
+./rtest $SERVICE $PLATFORM wam2-ts pulse_nodep.zip 600000
+./rtest $SERVICE $PLATFORM wasmjs pulse_nodep.zip 130000
+./rtest $SERVICE $PLATFORM wasmjs-poly pulse_nodep.zip 130000
+./rtest $SERVICE $PLATFORM webaudiowasm pulse_nodep.zip 180000
+./rtest $SERVICE $PLATFORM webaudiowasm-poly pulse_nodep.zip 180000
+
+# test with a zip file with real dependencies between the .dsp file and the .lib file
+./rtest $SERVICE $PLATFORM pwa pulse_withdep.zip 4000
+./rtest $SERVICE $PLATFORM pwa-poly pulse_withdep.zip 4000
+./rtest $SERVICE $PLATFORM wam2-fft-ts pulse_withdep.zip 600000
+./rtest $SERVICE $PLATFORM wam2-poly-ts pulse_withdep.zip 600000
+./rtest $SERVICE $PLATFORM wam2-ts pulse_withdep.zip 600000
+./rtest $SERVICE $PLATFORM wasmjs pulse_withdep.zip 130000
+./rtest $SERVICE $PLATFORM wasmjs-poly pulse_withdep.zip 130000
+./rtest $SERVICE $PLATFORM webaudiowasm pulse_withdep.zip 180000
+./rtest $SERVICE $PLATFORM webaudiowasm-poly pulse_withdep.zip 180000
