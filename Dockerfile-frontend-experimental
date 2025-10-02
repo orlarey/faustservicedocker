@@ -1,0 +1,53 @@
+
+########################################################################
+########################################################################
+#
+#       Faustservice (remote Faust compiler) in a docker
+#                 (L. Champenois & Y. Orlarey)
+#
+########################################################################
+########################################################################
+
+FROM grame/fs3925:latest
+
+########################################################################
+# Now we can clone and compile all the Faust related git repositories
+########################################################################
+
+WORKDIR /faust
+RUN git fetch && \
+    git checkout 9e8b69b5e9b930c46227f2d5f939e3418eb38d9c && \
+    echo "Revert to old faus2puredata because Apple M1 target not available with our osxcross" && \
+    git checkout 1834bd41888ee518946d8e0ed661aad9ac88843d tools/faust2appls/faust2puredata && \
+    make && make install
+
+########################################################################
+# Reinstall and starts Faustservice (a commit from server branch)
+########################################################################
+
+# Installer GCC 9 et G++ 9, clone and build faustservice in one layer
+RUN add-apt-repository ppa:ubuntu-toolchain-r/test && \
+    apt-get update && \
+    apt-get install -y gcc-9 g++-9 && \
+    git clone https://github.com/grame-cncm/faustservice.git /newfaustservice
+
+WORKDIR /faustservice
+RUN git reset --hard HEAD && \
+    git fetch && \
+    git checkout 26f50c590a1da1e6be4ac879c79c48fa9aea5ff2 && \
+    CXX=g++-9 make && \
+    rm -rf makefiles/osx && \
+    rm -rf makefiles/dockerosx && \
+    mv makefiles/crossosx makefiles/osx && \
+    rm -rf makefiles/ros makefiles/unity/Makefile.all makefiles/unity/Makefile.android makefiles/unity/Makefile.ios makefiles/unity/Makefile.osx && \
+    rm -rf makefiles/esp32/*Flash
+
+EXPOSE 80
+WORKDIR /faustservice
+
+CMD ./faustweb --port 80 --sessions-dir /tmp/sessions --recover-cmd /faustservice/faustweb
+
+
+# docker build -f Dockerfile-frontend -t grame/frontendimage:latest .
+# docker run --rm --name frontend -d -p 8888:80 grame/frontendimage:latest
+# docker run --name frontend --cpus="3.5" --restart=always -d -p 8081:80 grame/frontendimage:latest
