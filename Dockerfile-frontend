@@ -16,7 +16,7 @@ FROM grame/fs3925:latest
 
 WORKDIR /faust
 RUN git fetch && \
-    git checkout 9e8b69b5e9b930c46227f2d5f939e3418eb38d9c && \
+    git checkout 4d2107ca298cbd02800fbf3cc654485edc04165a && \
     echo "Revert to old faus2puredata because Apple M1 target not available with our osxcross" && \
     git checkout 1834bd41888ee518946d8e0ed661aad9ac88843d tools/faust2appls/faust2puredata && \
     make && make install
