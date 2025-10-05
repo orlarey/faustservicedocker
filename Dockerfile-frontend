@@ -34,7 +34,7 @@ RUN add-apt-repository ppa:ubuntu-toolchain-r/test && \
 WORKDIR /faustservice
 RUN git reset --hard HEAD && \
     git fetch && \
-    git checkout 26f50c590a1da1e6be4ac879c79c48fa9aea5ff2 && \
+    git checkout 65eb7ebe86607467e203760397000d9ea596d84c && \
     CXX=g++-9 make && \
     rm -rf makefiles/osx && \
     rm -rf makefiles/dockerosx && \
