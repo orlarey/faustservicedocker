@@ -16,7 +16,9 @@ FROM grame/fs3925:latest
 
 WORKDIR /faust
 RUN git fetch && \
-    git checkout 8c00913e44d42f9d25aa3f1a0d500bde5662d7bc && \
+    git checkout 4d2107ca298cbd02800fbf3cc654485edc04165a && \
+    echo "Faust 2.81.10 plus the lexer fix that refuses strings containing a backslash or '*/'" && \
+    git -c user.name=faustservice -c user.email=faustservice@localhost cherry-pick --no-commit eb9d262ee1a9bf2db8e23abd49ae2a59700cbe51 && \
     echo "Revert to old faus2puredata because Apple M1 target not available with our osxcross" && \
     git checkout 1834bd41888ee518946d8e0ed661aad9ac88843d tools/faust2appls/faust2puredata && \
     make && make install
@@ -34,13 +36,23 @@ RUN add-apt-repository ppa:ubuntu-toolchain-r/test && \
 WORKDIR /faustservice
 RUN git reset --hard HEAD && \
     git fetch && \
-    git checkout 65eb7ebe86607467e203760397000d9ea596d84c && \
+    git checkout b276a073d8b56bdb03fb56b1630ce9e10f23eb98 && \
     CXX=g++-9 make && \
     rm -rf makefiles/osx && \
     rm -rf makefiles/dockerosx && \
     mv makefiles/crossosx makefiles/osx && \
     rm -rf makefiles/ros makefiles/unity/Makefile.all makefiles/unity/Makefile.android makefiles/unity/Makefile.ios makefiles/unity/Makefile.osx && \
     rm -rf makefiles/esp32/*Flash
+
+# Apache, PHP and certbot come from an old architecture and are used by nothing
+RUN apt-get purge -y apache2 apache2-bin apache2-data apache2-utils certbot \
+        libapache2-mod-php libapache2-mod-php7.2 php php-common php7.2 php7.2-cli \
+        php7.2-common php7.2-json php7.2-opcache php7.2-readline \
+        python-certbot-apache python3-certbot python3-certbot-apache
+
+# Mathdoc compiles the LaTeX of the <mdoc> blocks: it may only read its working directory
+COPY restrict-mathdoc.py /tmp/restrict-mathdoc.py
+RUN python3 /tmp/restrict-mathdoc.py /usr/local/bin/faust2mathdoc && rm /tmp/restrict-mathdoc.py
 
 EXPOSE 80
 WORKDIR /faustservice
@@ -49,5 +61,7 @@ CMD ./faustweb --port 80 --sessions-dir /tmp/sessions --recover-cmd /faustservic
 
 
 # docker build -f Dockerfile-frontend -t grame/frontendimage:latest .
-# docker run --rm --name frontend -d -p 8888:80 grame/frontendimage:latest
-# docker run --name frontend --cpus="3.5" --restart=always -d -p 8081:80 grame/frontendimage:latest
+# docker run --rm --name fs-test -d -p 127.0.0.1:8888:80 grame/frontendimage:latest
+# The ports are only published on 127.0.0.1: the Apache of the host serves HTTPS and forwards to them
+# docker run --name faustservice --cpus="3.5" --restart=always -d -p 127.0.0.1:8080:80 grame/frontendimage:latest
+# docker run --name frontend --cpus="3.5" --restart=always -d -p 127.0.0.1:8081:80 grame/frontendimage:latest

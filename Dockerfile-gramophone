@@ -1,0 +1,61 @@
+
+########################################################################
+########################################################################
+#
+#       Faustservice for the Gramophone targets (faustservice-old, /old/)
+#
+#  The Gramophone makefiles need faust 2.40.12 (faust2esp32 -gramophone
+#  and the precompiled gramo-precomp project), so this image starts from
+#  the 2022 image and only replaces what the security fixes require:
+#  the lexer of faust, the faustweb server, the program-executing csv
+#  target, and the unused Apache, PHP and certbot packages.
+#
+########################################################################
+########################################################################
+
+# Current faustweb, linked with a static libstdc++: the 2022 image only
+# has the libstdc++ of g++ 7
+ARG FRONTEND=grame/frontendimage:latest
+FROM ${FRONTEND} AS faustweb
+RUN cd /faustservice && \
+    git log -1 --format=%H && \
+    rm -f faustweb && \
+    CXX=g++-9 make LDFLAGS="-static-libstdc++ -static-libgcc"
+
+FROM amstramgram-1:latest
+
+# Faust 2.40.12 with the lexer fix (faust eb9d262ee, adapted to the
+# yyerror of 2.40): a string containing a backslash or '*/' is refused
+COPY lexer-2.40.12.patch /tmp/lexer-2.40.12.patch
+RUN cd /faust && \
+    git apply /tmp/lexer-2.40.12.patch && \
+    cd compiler/parser && flex -I -ofaustlexer.cpp faustlexer.l && \
+    cd /faust && make -C build && \
+    cp build/bin/faust /usr/local/bin/faust && \
+    rm /tmp/lexer-2.40.12.patch
+
+COPY --from=faustweb /faustservice/faustweb /faustservice/faustweb
+
+# No target may run the compiled program on the server
+RUN rm -f /faustservice/makefiles/misc/Makefile.csv
+
+# Apache, PHP and certbot come from an old architecture and are used by nothing
+RUN apt-get purge -y apache2 apache2-bin apache2-data apache2-utils certbot \
+        libapache2-mod-php libapache2-mod-php7.2 php php-common php7.2 php7.2-cli \
+        php7.2-common php7.2-json php7.2-opcache php7.2-readline \
+        python-certbot-apache python3-certbot python3-certbot-apache
+
+# Mathdoc compiles the LaTeX of the <mdoc> blocks: it may only read its working directory
+COPY restrict-mathdoc.py /tmp/restrict-mathdoc.py
+RUN python3 /tmp/restrict-mathdoc.py /usr/local/bin/faust2mathdoc && rm /tmp/restrict-mathdoc.py
+
+EXPOSE 80
+WORKDIR /faustservice
+
+CMD ./faustweb --port 80 --sessions-dir /tmp/sessions --recover-cmd /faustservice/faustweb
+
+
+# docker build -f Dockerfile-gramophone -t grame/gramophoneimage:latest .
+# docker run --rm --name gramophone-test -d -p 127.0.0.1:8888:80 grame/gramophoneimage:latest
+# The port is only published on 127.0.0.1: the Apache of the host serves HTTPS and forwards to it
+# docker run --name gramophone --cpus="0.75" --restart=always -d -p 127.0.0.1:8082:80 grame/gramophoneimage:latest

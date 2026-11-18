@@ -1,0 +1,31 @@
+diff --git a/compiler/parser/faustlexer.l b/compiler/parser/faustlexer.l
+index b878388c7..ad84e1b20 100644
+--- a/compiler/parser/faustlexer.l
++++ b/compiler/parser/faustlexer.l
+@@ -24,6 +24,17 @@
+ 
+ #define register		// suppress the deprecated 'register' warning
+ 
++#include <cstring>
++
++// A string is copied as is into the generated code, in string literals and in
++// comments: a backslash or a "*/" would change the meaning of that code
++static void checkString(const char* str)
++{
++    if (strchr(str, '\\') || strstr(str, "*/")) {
++        yyerror("a string can't contain a backslash or '*/'");
++    }
++}
++
+ %}
+ 
+ DIGIT    [0-9]
+@@ -229,7 +240,7 @@ TMACRO   \\{ID}(\[(\ *({ID}|{NUMBER}),?\ *)\])?(\{(\ *({ID}|{NUMBER}),?\ *)*\})*
+ _{ID}   	return IDENT;
+ {ID}   		return IDENT;
+ 
+-"\""[^\"]*"\""	return STRING;
++"\""[^\"]*"\""	{ checkString(yytext); return STRING; }
+ 
+ "<"{LETTER}*"."{LETTER}">"	return FSTRING;
+ "<"{LETTER}*">"				return FSTRING;
