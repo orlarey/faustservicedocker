@@ -57,5 +57,8 @@ CMD ./faustweb --port 80 --sessions-dir /tmp/sessions --recover-cmd /faustservic
 
 # docker build -f Dockerfile-gramophone -t grame/gramophoneimage:latest .
 # docker run --rm --name gramophone-test -d -p 127.0.0.1:8888:80 grame/gramophoneimage:latest
-# The port is only published on 127.0.0.1: the Apache of the host serves HTTPS and forwards to it
-# docker run --name gramophone --cpus="0.75" --restart=always -d -p 127.0.0.1:8082:80 grame/gramophoneimage:latest
+# The port is only published on 127.0.0.1: the Apache of the host serves HTTPS and forwards to it.
+# The container runs read-only, as the one of Dockerfile-frontend; GIT_OPTIONAL_LOCKS=0 keeps the
+# ESP-IDF build from refreshing the index of its git repository.
+# RO="--read-only -v /tmp -v /root/.gradle --tmpfs /root/.config:size=64m --tmpfs /root/.android:size=64m -e PYTHONDONTWRITEBYTECODE=1"
+# docker run --name gramophone --cpus="0.75" --restart=always -d $RO -e GIT_OPTIONAL_LOCKS=0 -p 127.0.0.1:8082:80 grame/gramophoneimage:latest

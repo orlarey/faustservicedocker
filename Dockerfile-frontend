@@ -62,6 +62,11 @@ CMD ./faustweb --port 80 --sessions-dir /tmp/sessions --recover-cmd /faustservic
 
 # docker build -f Dockerfile-frontend -t grame/frontendimage:latest .
 # docker run --rm --name fs-test -d -p 127.0.0.1:8888:80 grame/frontendimage:latest
-# The ports are only published on 127.0.0.1: the Apache of the host serves HTTPS and forwards to them
-# docker run --name faustservice --cpus="3.5" --restart=always -d -p 127.0.0.1:8080:80 grame/frontendimage:latest
-# docker run --name frontend --cpus="3.5" --restart=always -d -p 127.0.0.1:8081:80 grame/frontendimage:latest
+# The ports are only published on 127.0.0.1: the Apache of the host serves HTTPS and forwards to them.
+# The containers run read-only. What the targets write is either on anonymous volumes, created from
+# the image with each container (the sessions in /tmp, the Gradle caches, the directories where
+# faustwasm writes a temporary module), or on small tmpfs (Inkscape, Android settings).
+# RO="--read-only -v /tmp -v /root/.gradle --tmpfs /root/.config:size=64m --tmpfs /root/.android:size=64m -e PYTHONDONTWRITEBYTECODE=1"
+# WASM="-v /usr/lib/node_modules/@grame/faustwasm/libfaust-wasm -v /usr/lib/node_modules/@shren/faust2wam/node_modules/@grame/faustwasm/libfaust-wasm"
+# docker run --name faustservice --cpus="3.5" --restart=always -d $RO $WASM -p 127.0.0.1:8080:80 grame/frontendimage:latest
+# docker run --name frontend --cpus="3.5" --restart=always -d $RO $WASM -p 127.0.0.1:8081:80 grame/frontendimage:latest
